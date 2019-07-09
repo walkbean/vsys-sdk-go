@@ -1,8 +1,8 @@
 package vsys
 
 import (
-	"testing"
 	"github.com/stretchr/testify/assert"
+	"testing"
 )
 
 func TestPublicKeyToAddress(t *testing.T) {

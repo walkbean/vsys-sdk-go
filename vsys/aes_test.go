@@ -36,4 +36,3 @@ func TestAesEncrypt(t *testing.T) {
 	assert.Equal(t, err, nil)
 	fmt.Println(string(data))
 }
-
