@@ -49,7 +49,7 @@ func InitAccount(network byte) *Account {
 }
 
 // BuildFromPrivateKey build account using privateKey
-func (acc *Account)BuildFromPrivateKey(privateKey string) {
+func (acc *Account) BuildFromPrivateKey(privateKey string) {
 	var bPrivateKey [32]byte
 	var originPublicKey = new([32]byte)
 	copy(bPrivateKey[:], Base58Decode(privateKey)[:])
@@ -59,7 +59,7 @@ func (acc *Account)BuildFromPrivateKey(privateKey string) {
 }
 
 // BuildFromPrivateKey build account using seed and nonce
-func (acc *Account)BuildFromSeed(seed string, nonce int)  {
+func (acc *Account) BuildFromSeed(seed string, nonce int) {
 	seedHash := BuildSeedHash(seed, nonce)
 	keyPair := GenerateKeyPair(seedHash)
 	acc.publicKey = keyPair.publicKey
@@ -71,7 +71,7 @@ func (acc *Account)BuildFromSeed(seed string, nonce int)  {
 // recipient should be address
 // amount is in minimum unit
 // attachment can be empty
-func (acc *Account)BuildPayment(recipient string, amount int64, attachment []byte) *Transaction {
+func (acc *Account) BuildPayment(recipient string, amount int64, attachment []byte) *Transaction {
 	transaction := NewPaymentTransaction(recipient, amount, attachment)
 	transaction.SenderPublicKey = acc.PublicKey()
 	transaction.Signature = acc.SignData(transaction.BuildTxData())
@@ -81,7 +81,7 @@ func (acc *Account)BuildPayment(recipient string, amount int64, attachment []byt
 // BuildLeasing build leasing transaction
 // recipient should be address
 // amount is in minimum unit
-func (acc *Account)BuildLeasing(recipient string, amount int64) *Transaction {
+func (acc *Account) BuildLeasing(recipient string, amount int64) *Transaction {
 	transaction := NewLeaseTransaction(recipient, amount)
 	transaction.SenderPublicKey = acc.PublicKey()
 	transaction.Signature = acc.SignData(transaction.BuildTxData())
@@ -89,7 +89,7 @@ func (acc *Account)BuildLeasing(recipient string, amount int64) *Transaction {
 }
 
 // BuildCancelLeasing build Cancel transaction
-func (acc *Account)BuildCancelLeasing(txId string) *Transaction {
+func (acc *Account) BuildCancelLeasing(txId string) *Transaction {
 	transaction := NewCancelLeaseTransaction(txId)
 	transaction.SenderPublicKey = acc.PublicKey()
 	transaction.Signature = acc.SignData(transaction.BuildTxData())

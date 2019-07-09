@@ -2,8 +2,8 @@ package vsys
 
 import (
 	"fmt"
-	"testing"
 	"github.com/stretchr/testify/assert"
+	"testing"
 )
 
 func TestGenRandomBytes(t *testing.T) {

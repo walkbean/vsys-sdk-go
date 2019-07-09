@@ -5,46 +5,46 @@ import (
 )
 
 type Transaction struct {
-	TxId       string `json:"txId,omitempty"`
-	Timestamp  int64 `json:"timestamp"`
-	Fee        int64 `json:"fee"`
-	FeeScale   int16 `json:"feeScale"`
-	Amount     int64 `json:"amount"`
+	TxId            string `json:"txId,omitempty"`
+	Timestamp       int64  `json:"timestamp"`
+	Fee             int64  `json:"fee"`
+	FeeScale        int16  `json:"feeScale"`
+	Amount          int64  `json:"amount"`
 	SenderPublicKey string `json:"senderPublicKey"`
-	Attachment []byte `json:"attachment,omitempty"`
-	Recipient  string  `json:"recipient,omitempty"`
-	Signature string `json:"signature"`
-	txType     uint8
+	Attachment      []byte `json:"attachment,omitempty"`
+	Recipient       string `json:"recipient,omitempty"`
+	Signature       string `json:"signature"`
+	txType          uint8
 }
 
 func NewPaymentTransaction(recipient string, amount int64, attachment []byte) *Transaction {
 	return &Transaction{
-		Timestamp: time.Now().Unix() * 1000000000,
-		Fee: DefaultTxFee,
-		FeeScale: DefaultFeeScale,
-		Recipient: recipient,
-		Amount: amount,
+		Timestamp:  time.Now().Unix() * 1000000000,
+		Fee:        DefaultTxFee,
+		FeeScale:   DefaultFeeScale,
+		Recipient:  recipient,
+		Amount:     amount,
 		Attachment: attachment,
-		txType: TxTypePayment}
+		txType:     TxTypePayment}
 }
 
 func NewLeaseTransaction(recipient string, amount int64) *Transaction {
 	return &Transaction{
 		Timestamp: time.Now().Unix() * 1000000000,
-		Fee: DefaultTxFee,
-		FeeScale: DefaultFeeScale,
+		Fee:       DefaultTxFee,
+		FeeScale:  DefaultFeeScale,
 		Recipient: recipient,
-		Amount: amount,
-		txType: TxTypeLease}
+		Amount:    amount,
+		txType:    TxTypeLease}
 }
 
 func NewCancelLeaseTransaction(txId string) *Transaction {
 	return &Transaction{
 		Timestamp: time.Now().Unix() * 1000000000,
-		Fee: DefaultTxFee,
-		FeeScale: DefaultFeeScale,
-		TxId: txId,
-		txType: TxTypeCancelLease}
+		Fee:       DefaultTxFee,
+		FeeScale:  DefaultFeeScale,
+		TxId:      txId,
+		txType:    TxTypeCancelLease}
 }
 
 func (tx *Transaction) TxType() int {

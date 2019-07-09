@@ -32,7 +32,7 @@ func PostWithTimeOut(url string, data interface{}, duration time.Duration) (body
 	if err != nil {
 		return []byte{}, err
 	}
-	if err := getErrResp(resp,body);err != nil{
+	if err := getErrResp(resp, body); err != nil {
 		return []byte{}, err
 	}
 
@@ -49,13 +49,13 @@ func UrlGetContent(url string) (body []byte, err error) {
 	if err != nil {
 		return []byte{}, err
 	}
-	if err := getErrResp(resp,body);err != nil{
+	if err := getErrResp(resp, body); err != nil {
 		return []byte{}, err
 	}
 	return body, nil
 }
 
-func getErrResp(resp *http.Response, body []byte)(err error){
+func getErrResp(resp *http.Response, body []byte) (err error) {
 	if resp.StatusCode != 200 {
 		errResp := CommonResp{}
 		if err := json.Unmarshal(body, &errResp); err != nil {

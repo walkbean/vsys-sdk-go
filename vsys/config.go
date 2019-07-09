@@ -1,10 +1,9 @@
 package vsys
 
 import (
-	"strings"
 	"crypto/rand"
+	"strings"
 )
-
 
 const (
 	Protocol          = "v.systems"
@@ -21,10 +20,10 @@ const (
 	Mainnet = 'M'
 
 	// TX_TYPE
-	TxTypePayment          = 2
-	TxTypeLease            = 3
-	TxTypeCancelLease      = 4
-	TxTypeMinting          = 5
+	TxTypePayment     = 2
+	TxTypeLease       = 3
+	TxTypeCancelLease = 4
+	TxTypeMinting     = 5
 )
 
 var wordList = []string{"abandon", "ability", "able", "about", "above", "absent", "absorb", "abstract", "absurd", "abuse", "access",
@@ -211,7 +210,6 @@ var wordList = []string{"abandon", "ability", "able", "about", "above", "absent"
 	"window", "wine", "wing", "wink", "winner", "winter", "wire", "wisdom", "wise", "wish", "witness", "wolf",
 	"woman", "wonder", "wood", "wool", "word", "work", "world", "worry", "worth", "wrap", "wreck", "wrestle",
 	"wrist", "write", "wrong", "yard", "year", "yellow", "you", "young", "youth", "zebra", "zero", "zone", "zoo"}
-
 
 func GenerateSeed() string {
 	var (

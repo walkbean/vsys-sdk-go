@@ -1,6 +1,6 @@
 package vsys
 
-import(
+import (
 	rand2 "crypto/rand"
 	"encoding/binary"
 )

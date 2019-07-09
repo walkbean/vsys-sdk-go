@@ -1,9 +1,9 @@
 package vsys
 
 import (
-	"testing"
-	"github.com/stretchr/testify/assert"
 	"fmt"
+	"github.com/stretchr/testify/assert"
+	"testing"
 )
 
 const testPrivateKey = "TEST_PRIVATE_KEY"

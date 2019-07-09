@@ -1,11 +1,11 @@
 package vsys
 
 import (
-	"golang.org/x/crypto/sha3"
-	"golang.org/x/crypto/blake2b"
-	"strconv"
 	"crypto/sha256"
+	"golang.org/x/crypto/blake2b"
 	"golang.org/x/crypto/curve25519"
+	"golang.org/x/crypto/sha3"
+	"strconv"
 )
 
 // Keccak256 calculates and returns the Keccak256 hash of the input data.
@@ -42,7 +42,7 @@ func IsValidateAddress(address string, network byte) bool {
 	key := data[0:22]
 	check := data[22:26]
 	keyHash := HashChain(key)[0:4]
-	for i := 0; i < 4; i ++ {
+	for i := 0; i < 4; i++ {
 		if check[i] != keyHash[i] {
 			return false
 		}
@@ -60,4 +60,3 @@ func GenerateKeyPair(seed []byte) *Account {
 	originPrivateKey[31] |= 64
 	return &Account{publicKey: originPublicKey[:], privateKey: originPrivateKey[:]}
 }
-
