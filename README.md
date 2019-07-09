@@ -9,7 +9,7 @@ project's Go module dependencies.
 	go get github.com/walkbean/vsys-sdk-go
 	
 ### Dependencies
-The SDK includes a vendor folder containing the runtime dependencies of the SDK. The metadata of the SDK's dependencies can be found in the Go module file go.mod or Dep file Gopkg.toml.
+The SDK includes a vendor folder containing the runtime dependencies of the SDK. The metadata of the SDK's dependencies can be found in the GoVendor file vendor/vendor.json.
 
 ## Usage
 
