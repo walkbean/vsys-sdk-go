@@ -17,8 +17,8 @@ const (
 	DefaultFeeScale int16 = 100
 
 	// Network
-	TestnetByte = 'T'
-	MainnetByte = 'M'
+	Testnet = 'T'
+	Mainnet = 'M'
 
 	// TX_TYPE
 	TxTypePayment          = 2

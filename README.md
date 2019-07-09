@@ -13,22 +13,47 @@ The SDK includes a vendor folder containing the runtime dependencies of the SDK.
 
 ## Usage
 
-### Create Account 
+### Account 
 
 #### Create Account From Seed
 
 ```go
-	acc := InitAccount(TestnetByte)
-	acc.BuildFromSeed("<SEED>", 0)
+acc := vsys.InitAccount(TestnetByte)
+acc.BuildFromSeed("<SEED>", 0)
 ```
 
 #### Create Account From PrivateKey
 ```go
-	acc := InitAccount(TestnetByte)
-	acc.BuildFromPrivateKey("<PRIVATE_KEY>")
+acc := vsys.InitAccount(TestnetByte)
+acc.BuildFromPrivateKey("<PRIVATE_KEY>")
 ```
 
 ### Transaction
 
-#### Send Payment Transaction
+1. Init Api
+
+```go
+// For Mainnet
+vsys.InitApi("https://wallet.v.systems/api", vsys.Mainnet)
+// For TestNet
+vsys.InitApi("http://test.v.systems:9922", vsys.Testnet)
+
+```
+
+2. Make Transaction
+```go
+// Create Payment Transaction (send 1 vsys, attachment empty)
+tx := acc.BuildPayment("<RECIPIENT_ADDRESS>", 1e8, []byte{})
+vsys.SendPaymentTx(tx)
+	
+// Create Lease Transaction (lease 1 vsys)
+tx = acc.BuildLeasing("<RECIPIENT_ADDRESS>", 1e8)
+vsys.SendLeasingTx(tx)
+    
+// Create Cancel Lease Transaction
+tx = acc.BuildCancelLeasing("<TRANSACTION_ID>")
+vsys.SendCancelLeasingTx(tx)
+```
+
+
 

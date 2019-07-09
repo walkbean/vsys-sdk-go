@@ -20,9 +20,10 @@
 			"revision": ""
 		},
 		{
-			"checksumSHA1": "ppPg0bIlBAVJy0Pn13BfBnkp9V4=",
+			"checksumSHA1": "jfKksm9ENL0+wzoOuMR8kNuIePw=",
 			"path": "golang.org/x/crypto/blake2b",
-			"revision": ""
+			"revision": "4def268fd1a49955bfb3dda92fe3db4f924f2285",
+			"revisionTime": "2019-07-01T08:59:26Z"
 		},
 		{
 			"checksumSHA1": "IQkUIOnvlf0tYloFx9mLaXSvXWQ=",
