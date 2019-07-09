@@ -7,17 +7,19 @@ import (
 type Account struct {
 	publicKey  []byte
 	privateKey []byte
-	network    byte
+	network    NetType
 	accSeed    string
 }
 
-// Address get address with base58 encoded
 func (acc *Account) Address() string {
-	unCheckSumAddress := make([]byte, 0)
-	unCheckSumAddress = append(unCheckSumAddress, addrVersion, acc.network)
-	unCheckSumAddress = append(unCheckSumAddress, HashChain(acc.publicKey)[:20]...)
-	address := Base58Encode(append(unCheckSumAddress, HashChain(unCheckSumAddress)[:4]...))
-	return address
+	return publicKeyToAddress(acc.publicKey, acc.network)
+}
+
+func publicKeyToAddress(publicKey []byte, network NetType) string {
+	uAddr := make([]byte, 0)
+	uAddr = append(uAddr, addrVersion, byte(network))
+	uAddr = append(uAddr, HashChain(publicKey)[:20]...)
+	return Base58Encode(append(uAddr, HashChain(uAddr)[:4]...))
 }
 
 func (acc *Account) PrivateKey() string {
@@ -44,7 +46,7 @@ func (acc *Account) VerifySignature(data, signature []byte) bool {
 }
 
 // InitAccount return account with network initiated
-func InitAccount(network byte) *Account {
+func InitAccount(network NetType) *Account {
 	return &Account{network: network}
 }
 

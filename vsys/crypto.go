@@ -31,25 +31,6 @@ func BuildSeedHash(seed string, nonce int) []byte {
 	return HashChain([]byte(nonceSeed))
 }
 
-func IsValidateAddress(address string, network byte) bool {
-	data := Base58Decode(address)
-	if len(data) != 26 {
-		return false
-	}
-	if data[0] != addrVersion && data[1] != network {
-		return false
-	}
-	key := data[0:22]
-	check := data[22:26]
-	keyHash := HashChain(key)[0:4]
-	for i := 0; i < 4; i++ {
-		if check[i] != keyHash[i] {
-			return false
-		}
-	}
-	return true
-}
-
 // GenerateKeyPair generate Account using seed byte array
 func GenerateKeyPair(seed []byte) *Account {
 	var originPublicKey = new([32]byte)

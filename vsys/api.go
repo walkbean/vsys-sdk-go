@@ -5,7 +5,6 @@ import (
 	"fmt"
 )
 
-// Call init before and request !
 const (
 	ApiNodeVersion      = "/node/version"
 	ApiBroadcastPayment = "/vsys/broadcast/payment"
@@ -43,7 +42,7 @@ const (
 
 type VsysApi struct {
 	NodeAddress string
-	Network     byte
+	Network     NetType
 }
 
 type TransactionResponse struct {
@@ -80,7 +79,7 @@ func (a *VsysApi) Get(path string) ([]byte, error) {
 
 var api *VsysApi
 
-func InitApi(nodeAddress string, network byte) {
+func InitApi(nodeAddress string, network NetType) {
 	api = &VsysApi{
 		NodeAddress: nodeAddress,
 		Network:     network,

@@ -6,7 +6,7 @@ import (
 	"testing"
 )
 
-const testPrivateKey = "TEST_PRIVATE_KEY"
+const testPrivateKey = "4FpJ4hWMMpMW2pX7UMKdrC4WnXQ8KBRqxKSd1xE9MM9t"
 
 func TestSendPaymentTx(t *testing.T) {
 	InitApi("https://wallet.v.systems/api", Mainnet)
@@ -33,7 +33,7 @@ func TestSendCancelLeasingTx(t *testing.T) {
 	InitApi("https://wallet.v.systems/api", Mainnet)
 	acc := InitAccount(Mainnet)
 	acc.BuildFromPrivateKey(testPrivateKey)
-	tx := acc.BuildCancelLeasing("fDVDQbBii2tUsefApxBXEsQ2KeBdY2zG2MxuuZvx7NY")
+	tx := acc.BuildCancelLeasing("5p42Z3dL7pbKH8dPWpFvCXzQ6WpMDRUgd1N1FNYseUtv")
 	resp, err := SendCancelLeasingTx(tx)
 	assert.Equal(t, nil, err)
 	assert.Equal(t, resp.Error, 0)

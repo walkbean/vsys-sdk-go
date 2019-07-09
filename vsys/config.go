@@ -1,9 +1,6 @@
 package vsys
 
-import (
-	"crypto/rand"
-	"strings"
-)
+type NetType byte
 
 const (
 	Protocol          = "v.systems"
@@ -16,8 +13,8 @@ const (
 	DefaultFeeScale int16 = 100
 
 	// Network
-	Testnet = 'T'
-	Mainnet = 'M'
+	Testnet NetType = 'T'
+	Mainnet NetType = 'M'
 
 	// TX_TYPE
 	TxTypePayment     = 2
@@ -211,41 +208,4 @@ var wordList = []string{"abandon", "ability", "able", "about", "above", "absent"
 	"woman", "wonder", "wood", "wool", "word", "work", "world", "worry", "worth", "wrap", "wreck", "wrestle",
 	"wrist", "write", "wrong", "yard", "year", "yellow", "you", "young", "youth", "zebra", "zero", "zone", "zoo"}
 
-func GenerateSeed() string {
-	var (
-		words     string
-		wordCount int64 = 2048
-		w1        int64
-		w2        int64
-		w3        int64
-		x         int64
-	)
-	r := make([]byte, 4)
-	for i := 1; i <= 5; i++ {
-		rand.Read(r)
-		x = (int64(r[3]) & 0xff) + (int64(r[2])&0xff)<<8 + (int64(r[1])&0xff)<<16 + (int64(r[0])&0xff)<<24
-		w1 = x % wordCount
-		w2 = (((x / wordCount) >> 0) + w1) % wordCount
-		w3 = ((((((x / wordCount) >> 0) + w1) % wordCount) >> 0) + w2) % wordCount
-		words += wordList[w1] + " "
-		words += wordList[w2] + " "
-		words += wordList[w3] + " "
-	}
-	words = words[:len(words)-1]
-	return words
-}
 
-func ValidatePhrase(phrase string) bool {
-	wordSet := map[string]bool{}
-	for i := range wordList {
-		wordSet[wordList[i]] = true
-	}
-	words := strings.Split(phrase, " ")
-	for i := range words {
-		_, ok := wordSet[words[i]]
-		if !ok {
-			return false
-		}
-	}
-	return true
-}
