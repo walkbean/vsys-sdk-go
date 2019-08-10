@@ -97,3 +97,43 @@ func (acc *Account) BuildCancelLeasing(txId string) *Transaction {
 	transaction.Signature = acc.SignData(transaction.BuildTxData())
 	return transaction
 }
+
+// BuildRegisterContract build RegisterContract transaction
+func (acc *Account) BuildRegisterContract(contract string, max int64, unity int64, tokenDescription string, contractDescription string) *Transaction {
+	c := &Contract{
+		Max:              max * unity,
+		Unity:            unity,
+		TokenDescription: "vsys change the world",
+	}
+	data := c.BuildRegisterData()
+	transaction := NewRegisterTransaction(contract, Base58Encode(data), contractDescription)
+	transaction.SenderPublicKey = acc.PublicKey()
+	transaction.Signature = acc.SignData(transaction.BuildTxData())
+	return transaction
+}
+
+// BuildExecuteContract build ExecuteContract transaction
+func (acc *Account) BuildExecuteContract(contractId string, funcIdx int16, funcData []byte, attachment []byte) *Transaction {
+	transaction := NewExecuteTransaction(contractId, funcIdx, Base58Encode(funcData), attachment)
+	transaction.SenderPublicKey = acc.PublicKey()
+	transaction.Signature = acc.SignData(transaction.BuildTxData())
+	return transaction
+}
+
+// BuildExecuteContract build SendToken transaction
+func (acc *Account) BuildSendTokenTransaction(tokenId string, recipient string, amount int64, isSplitSupported bool, attachment []byte) *Transaction {
+	a := &Contract{
+		ContractId: TokenId2ContractId(tokenId),
+		Amount:     amount,
+		Recipient:  recipient,
+	}
+	funcData := a.BuildSendData()
+	funcIdx := FuncidxSend
+	if isSplitSupported {
+		funcIdx = FuncidxSendSplit
+	}
+	transaction := NewExecuteTransaction(a.ContractId, int16(funcIdx), Base58Encode(funcData), attachment)
+	transaction.SenderPublicKey = acc.PublicKey()
+	transaction.Signature = acc.SignData(transaction.BuildTxData())
+	return transaction
+}

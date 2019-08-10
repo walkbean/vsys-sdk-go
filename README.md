@@ -55,5 +55,99 @@ tx = acc.BuildCancelLeasing("<TRANSACTION_ID>")
 vsys.SendCancelLeasingTx(tx)
 ```
 
+### Contract
+
+#### Register Contract
+
+Contract type now only support : `vsys.TokenContract` or `vsys.TokenContractWithSplit`
+
+```go
+tx := acc.BuildRegisterContract(
+    <CONTRACT_TYPE>,
+    <MAX>,
+    <UNITY>,
+    <TOKEN_DESCRIPTION>,
+    <CONTRACT_DESCRIPTION>)
+vsys.SendRegisterContractTx(tx)
+```
+
+#### Execute Contract
 
 
+##### Issue Token
+
+```go
+a := &vsys.Contract{
+    Amount:     3 * 1e8,
+}
+// Build issue func data, Amount is necessary
+funcData := a.BuildIssueData()
+tx := acc.BuildExecuteContract(
+    <CONTRACT_ID>,
+    <FUNC_INDEX>,
+    <FUNCDATA>,
+    <ATTACHMENT>)
+vsys.SendExecuteContractTx(tx)
+```
+
+##### Destroy Token
+
+```go
+a := &vsys.Contract{
+    Amount: 4 * 1e8,
+}
+// Build destroy func data, Amount is necessary
+funcData = a.BuildDestroyData()
+tx := acc.BuildExecuteContract(
+    <CONTRACT_ID>,
+    <FUNC_INDEX>,
+    <FUNC_DATA>,
+    <ATTACHMENT>)
+vsys.SendExecuteContractTx(tx)
+```
+
+##### Send Token
+
+```go
+a := &vsys.Contract{
+    Amount:     3 * 1e7,
+    Recipient:  "AUDRgBJjXM5zFMERzMML7pLPWikajTf8AKh",
+}
+// Build send func data, Amount and Recipient are necessary
+funcData = a.BuildSendData()
+tx = acc.BuildExecuteContract(
+    <CONTRACT_ID>,
+    <FUNC_INDEX>, // eg. vsys.FuncidxSend or vsys.FuncidxSendSplit
+    funcData,
+    <ATTACHMENT>)
+// Send contract transaction
+vsys.SendExecuteContractTx(tx)
+```
+
+or
+
+```go
+tx := acc.BuildSendTokenTransaction(
+    <TOKEN_ID>,
+    <RECEPIENT>,
+    <AMOUNT>,
+    <IS_SPLIT_SUPPORTED>,
+    <ATTACHMENT>)
+vsys.SendExecuteContractTx(tx)
+```
+
+##### Split Token
+
+```go
+a := &vsys.Contract{
+    NewUnity: 1e4,
+}
+// Build send func data, NewUnity is necessary
+funcData := a.BuildSplitData()
+tx := acc.BuildExecuteContract(
+    TokenId2ContractId(testToken),
+    vsys.FuncidxSplit,
+    funcData,
+    <ATTACHMENT>) 
+vsys.SendExecuteContractTx(tx)
+```

@@ -27,3 +27,4 @@ func TestIsValidatePhrase(t *testing.T) {
 	ok = IsValidatePhrase("great hurry tent airport upon tape lonely enough noise sorry address almost drama apple best ")
 	assert.Equal(t, ok, false)
 }
+

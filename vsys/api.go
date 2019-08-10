@@ -35,9 +35,11 @@ const (
 	ApiGetAddressBalance = "/addresses/balance/%s"
 
 	//contract
-	ApiContractInfo         = "/contract/info/%s"
-	ApiTokenInfo            = "/contract/tokenInfo/%s"
-	ApiContractTokenBalance = "/contract/balance/%s/%s" // /contract/balance/{address}/{tokenId}
+	ApiContractBroadcastRegister = "/contract/broadcast/register"
+	ApiContractBroadcastExecute  = "/contract/broadcast/execute"
+	ApiContractInfo              = "/contract/info/%s"
+	ApiTokenInfo                 = "/contract/tokenInfo/%s"
+	ApiContractTokenBalance      = "/contract/balance/%s/%s" // /contract/balance/{address}/{tokenId}
 )
 
 type VsysApi struct {
@@ -113,3 +115,12 @@ func SendLeasingTx(tx *Transaction) (resp TransactionResponse, err error) {
 func SendCancelLeasingTx(tx *Transaction) (resp TransactionResponse, err error) {
 	return postSendTx(ApiBroadcastCancelLease, tx)
 }
+
+func SendRegisterContractTx(tx *Transaction) (resp TransactionResponse, err error) {
+	return postSendTx(ApiContractBroadcastRegister, tx)
+}
+
+func SendExecuteContractTx(tx *Transaction) (resp TransactionResponse, err error) {
+	return postSendTx(ApiContractBroadcastExecute, tx)
+}
+
