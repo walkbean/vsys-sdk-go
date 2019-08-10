@@ -8,6 +8,7 @@ import (
 
 const (
 	testAccount    = "ATsSvqRGQeTpeQSGt3eAfNphmJwvnGU9dAw"
+	testContract   = "CEsTEFWB5R9newNrMAVJzXHWXKgXfuxTfec"
 	testToken      = "TWsX2zy1MU7hfYT8vpyjscxdrpfgAAtSsN2kkM7NM"
 	testTokenSplit = "TWt31ztsEevZtHtnoKMqmiQtRkeqoFPebddQiJFb1"
 	testPrivateKey = "DvwNVbhTdn7XoCZW3W6YhkJrVk8Rq7NopuYRcz13tCzK"

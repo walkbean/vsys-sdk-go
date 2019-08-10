@@ -120,7 +120,6 @@ tx = acc.BuildExecuteContract(
     <FUNC_INDEX>, // eg. vsys.FuncidxSend or vsys.FuncidxSendSplit
     funcData,
     <ATTACHMENT>)
-// Send contract transaction
 vsys.SendExecuteContractTx(tx)
 ```
 
@@ -142,7 +141,7 @@ vsys.SendExecuteContractTx(tx)
 a := &vsys.Contract{
     NewUnity: 1e4,
 }
-// Build send func data, NewUnity is necessary
+// Build split func data, NewUnity is necessary
 funcData := a.BuildSplitData()
 tx := acc.BuildExecuteContract(
     TokenId2ContractId(testToken),
@@ -151,3 +150,20 @@ tx := acc.BuildExecuteContract(
     <ATTACHMENT>) 
 vsys.SendExecuteContractTx(tx)
 ```
+
+## More Useful Example
+Please refer to test files:
+```
+// blockchain api usage
+vsys/api_test.go
+
+// make account from seed or priKey
+vsys/account_test.go
+
+// contract relative utils usage 
+vsys/contract_test.go
+```
+
+## License ##
+
+This package is licensed under the MIT license. See LICENSE for details.

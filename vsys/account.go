@@ -11,6 +11,7 @@ type Account struct {
 	accSeed    string
 }
 
+// get account address string
 func (acc *Account) Address() string {
 	return publicKeyToAddress(acc.publicKey, acc.network)
 }
@@ -22,10 +23,12 @@ func publicKeyToAddress(publicKey []byte, network NetType) string {
 	return Base58Encode(append(uAddr, HashChain(uAddr)[:4]...))
 }
 
+// get account privateKey string
 func (acc *Account) PrivateKey() string {
 	return Base58Encode(acc.privateKey)
 }
 
+// get account publicKey string
 func (acc *Account) PublicKey() string {
 	return Base58Encode(acc.publicKey)
 }
