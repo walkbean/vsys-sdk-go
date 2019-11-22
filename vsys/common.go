@@ -29,7 +29,7 @@ func IsValidateAddress(address string, network NetType) bool {
 	if len(data) != 26 {
 		return false
 	}
-	if data[0] != addrVersion && data[1] != byte(network) {
+	if data[0] != addrVersion || data[1] != byte(network) {
 		return false
 	}
 	key := data[0:22]
