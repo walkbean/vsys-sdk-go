@@ -42,16 +42,16 @@ func (acc *Account) AccountSeed() string {
 }
 
 type AccountInfo struct {
-	Address  	string
-	Regular 	int64
+	Address        string
+	Regular        int64
 	MintingAverage int64
-	Available 	int64
-	Effective 	int64
-	Height 		int64
+	Available      int64
+	Effective      int64
+	Height         int64
 }
 
 // Get account V Coin balance
-func (acc *Account) GetInfo() (AccountInfo, error){
+func (acc *Account) GetInfo() (AccountInfo, error) {
 	path := fmt.Sprintf(ApiGetAddressDetail, acc.Address())
 	resp, err := GetVsysApi().Get(path)
 	if err != nil {
@@ -68,12 +68,12 @@ func (acc *Account) GetInfo() (AccountInfo, error){
 }
 
 type TokenBalance struct {
-	Error 		int `json:"error"`
-	Message  	string `json:"message"`
-	Address 	string `json:"address"`
-	TokenId 	string `json:"tokenId"`
-	Balance 	int64 `json:"balance"`
-	Unity 		int64 `json:"unity"`
+	Error   int    `json:"error"`
+	Message string `json:"message"`
+	Address string `json:"address"`
+	TokenId string `json:"tokenId"`
+	Balance int64  `json:"balance"`
+	Unity   int64  `json:"unity"`
 }
 
 func (acc *Account) GetTokenBalance(tokenId string) (TokenBalance, error) {
@@ -93,34 +93,34 @@ func (acc *Account) GetTokenBalance(tokenId string) (TokenBalance, error) {
 }
 
 type TxHistoryList struct {
-	Error  				int `json:"error"`
-	Message  			string `json:"message"`
-	TotalCount  		int64 `json:"totalCount"`
-	Size 				int `json:"size"`
-	Transactions 		[]struct {
-		Type 		int64
-		Id 			string
-		Fee 		int64
-		FeeScale 	int64 `json:"feeScale"`
-		Timestamp 	int64 `json:"timestamp"`
-		Proofs 		[]struct {
-			ProofType 	string `json:"proofType"`
-			PublicKey 	string `json:"publicKey"`
-			Address 	string `json:"address"`
-			Signature 	string `json:"signature"`
+	Error        int    `json:"error"`
+	Message      string `json:"message"`
+	TotalCount   int64  `json:"totalCount"`
+	Size         int    `json:"size"`
+	Transactions []struct {
+		Type      int64
+		Id        string
+		Fee       int64
+		FeeScale  int64 `json:"feeScale"`
+		Timestamp int64 `json:"timestamp"`
+		Proofs    []struct {
+			ProofType string `json:"proofType"`
+			PublicKey string `json:"publicKey"`
+			Address   string `json:"address"`
+			Signature string `json:"signature"`
 		}
-		Recipient 	string `json:"recipient"`
-		Amount 		int64 `json:"amount"`
-		Attachment 	string `json:"attachment"`
-		Status   	string `json:"status"`
-		FeeCharged  int64 `json:"feeCharged"`
-		Height 		int64 `json:"height"`
+		Recipient  string `json:"recipient"`
+		Amount     int64  `json:"amount"`
+		Attachment string `json:"attachment"`
+		Status     string `json:"status"`
+		FeeCharged int64  `json:"feeCharged"`
+		Height     int64  `json:"height"`
 	} `json:"transactions"`
 }
 
 // txType eg: TxTypePayment | TxTypeLeasing
 // txType <= 0 will return all kind of transactions
-func (acc *Account) GetTransferHistory(limit int64, offset int64, txType int64) (TxHistoryList, error){
+func (acc *Account) GetTransferHistory(limit int64, offset int64, txType int64) (TxHistoryList, error) {
 	params := url.Values{}
 	params.Set("address", acc.Address())
 	if txType > 0 {

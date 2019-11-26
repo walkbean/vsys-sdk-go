@@ -51,5 +51,3 @@ func TestAccount_GetTransferHistory(t *testing.T) {
 	assert.NoError(t, err)
 	assert.Equal(t, len(resp.Transactions), 10)
 }
-
-

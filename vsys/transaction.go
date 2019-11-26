@@ -164,4 +164,3 @@ func (tx *Transaction) buildExecuteContractData(data []byte) []byte {
 	data = append(data, uint64ToByte(tx.Timestamp)...)
 	return data
 }
-

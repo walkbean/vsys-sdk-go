@@ -6,12 +6,12 @@ import (
 )
 
 type TokenInfo struct {
-	TokenId 		string `json:"tokenId"`
-	ContractId 		string `json:"contractId"`
-	Max 			int64 `json:"max"`
-	Total  			int64 `json:"total"`
-	Unity 			int64 `json:"unity"`
-	Description  	string `json:"description"`
+	TokenId     string `json:"tokenId"`
+	ContractId  string `json:"contractId"`
+	Max         int64  `json:"max"`
+	Total       int64  `json:"total"`
+	Unity       int64  `json:"unity"`
+	Description string `json:"description"`
 }
 
 // Get token info by token_id

@@ -21,7 +21,7 @@ const (
 	ApiUnConfirmedTransaction  = "/transactions/unconfirmed"
 	ApiGetTransactionInfo      = "/transactions/info/%s"
 	ApiGetTransactionByAddress = "/transactions/address/%s/limit/%d"
-	ApiGetTransactionList  	   = "/transactions/list"
+	ApiGetTransactionList      = "/transactions/list"
 
 	// peers
 	ApiGetPeersConnected = "/peers/connected"
