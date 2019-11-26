@@ -4,8 +4,6 @@ import (
 	"encoding/json"
 	"fmt"
 	"golang.org/x/crypto/curve25519"
-	"net/url"
-	"strconv"
 )
 
 type Account struct {
@@ -118,29 +116,8 @@ type TxHistoryList struct {
 	} `json:"transactions"`
 }
 
-// txType eg: TxTypePayment | TxTypeLeasing
-// txType <= 0 will return all kind of transactions
 func (acc *Account) GetTransferHistory(limit int64, offset int64, txType int64) (TxHistoryList, error) {
-	params := url.Values{}
-	params.Set("address", acc.Address())
-	if txType > 0 {
-		params.Set("txType", strconv.FormatInt(txType, 10))
-	}
-	params.Set("limit", strconv.FormatInt(limit, 10))
-	params.Set("offset", strconv.FormatInt(offset, 10))
-	path := fmt.Sprintf("%s?%s", ApiGetTransactionList, params.Encode())
-	resp, err := GetVsysApi().Get(path)
-	if err != nil {
-		return TxHistoryList{}, err
-	}
-
-	var data TxHistoryList
-	err = json.Unmarshal(resp, &data)
-	if err != nil {
-		return TxHistoryList{}, err
-	}
-
-	return data, nil
+	return GetTransactionList(acc.Address(), limit, offset, txType)
 }
 
 // SignData sign data bytes and

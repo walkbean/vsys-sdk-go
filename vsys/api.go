@@ -3,6 +3,8 @@ package vsys
 import (
 	"encoding/json"
 	"fmt"
+	"net/url"
+	"strconv"
 )
 
 const (
@@ -123,4 +125,27 @@ func SendRegisterContractTx(tx *Transaction) (resp TransactionResponse, err erro
 
 func SendExecuteContractTx(tx *Transaction) (resp TransactionResponse, err error) {
 	return postSendTx(ApiContractBroadcastExecute, tx)
+}
+
+// txType eg: TxTypePayment | TxTypeLeasing
+// txType <= 0 will return all kind of transactions
+func GetTransactionList(address string,limit int64, offset int64, txType int64) (TxHistoryList, error){
+	params := url.Values{}
+	params.Set("address", address)
+	if txType > 0 {
+		params.Set("txType", strconv.FormatInt(txType, 10))
+	}
+	params.Set("limit", strconv.FormatInt(limit, 10))
+	params.Set("offset", strconv.FormatInt(offset, 10))
+	path := fmt.Sprintf("%s?%s", ApiGetTransactionList, params.Encode())
+	resp, err := GetVsysApi().Get(path)
+	if err != nil {
+		return TxHistoryList{}, err
+	}
+	var data TxHistoryList
+	err = json.Unmarshal(resp, &data)
+	if err != nil {
+		return TxHistoryList{}, err
+	}
+	return data, nil
 }

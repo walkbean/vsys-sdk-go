@@ -55,6 +55,12 @@ tx = acc.BuildCancelLeasing("<TRANSACTION_ID>")
 vsys.SendCancelLeasingTx(tx)
 ```
 
+3. Query Transaction
+```go
+// Get Account Related Transactions (get payment transactions limit 10 offset 0)
+list, err := vsys.GetTransactionList("<ADDRESS>", 10, 0, vsys.TxTypePayment)
+```
+
 ### Contract
 
 #### Register Contract
