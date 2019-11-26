@@ -6,18 +6,18 @@ import (
 )
 
 type Contract struct {
-	ContractId       string
-	Contract         string
-	Max              int64
-	Unity            int64
-	TokenDescription string
+	ContractId          string
+	Contract            string
+	Max                 int64
+	Unity               int64
+	TokenDescription    string
 	ContractDescription string
-	Amount           int64
-	TokenIdx         int32 // const 0
-	Recipient        string
-	SenderPublicKey  string
-	NewUnity         int64  // split newUnity
-	NewIssuer        string // supersede newIssuer
+	Amount              int64
+	TokenIdx            int32 // const 0
+	Recipient           string
+	SenderPublicKey     string
+	NewUnity            int64  // split newUnity
+	NewIssuer           string // supersede newIssuer
 
 	Textual   Textual // [init func, user defined func, stateVar]
 	Functions []Func
@@ -277,4 +277,3 @@ func TokenId2ContractId(tokenId string) string {
 	checksum := HashChain(bytes)[:4]
 	return Base58Encode(append(bytes, checksum...))
 }
-

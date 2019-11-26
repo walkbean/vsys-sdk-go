@@ -21,7 +21,7 @@ type Transaction struct {
 	TokenIdx      int32  `json:"tokenIdx,omitempty"`
 	Description   string `json:"description,omitempty"`
 	FunctionIndex int16  `json:"functionIndex,omitempty"`
-	FunctionData  string  `json:"functionData,omitempty"`
+	FunctionData  string `json:"functionData,omitempty"`
 	txType        uint8
 }
 
@@ -164,3 +164,4 @@ func (tx *Transaction) buildExecuteContractData(data []byte) []byte {
 	data = append(data, uint64ToByte(tx.Timestamp)...)
 	return data
 }
+
