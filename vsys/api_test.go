@@ -76,7 +76,7 @@ func TestExecuteContract(t *testing.T) {
 	acc.BuildFromSeed(testSeed, 0)
 	// test issue
 	a := &Contract{
-		Amount:     3 * 1e8,
+		Amount: 3 * 1e8,
 	}
 	funcData := a.BuildIssueData()
 	tx := acc.BuildExecuteContract(
@@ -102,8 +102,8 @@ func TestExecuteContract(t *testing.T) {
 
 	// test send
 	a = &Contract{
-		Amount:     3 * 1e7, // need mul unity
-		Recipient:  "AUDRgBJjXM5zFMERzMML7pLPWikajTf8AKh",
+		Amount:    3 * 1e7, // need mul unity
+		Recipient: "AUDRgBJjXM5zFMERzMML7pLPWikajTf8AKh",
 	}
 	funcData = a.BuildSendData()
 	tx = acc.BuildExecuteContract(TokenId2ContractId(testToken), FuncidxSend, funcData, []byte{})
@@ -173,7 +173,7 @@ func TestSendTokenTransaction(t *testing.T) {
 	tx := acc.BuildSendTokenTransaction(
 		testToken,
 		"AUDRgBJjXM5zFMERzMML7pLPWikajTf8AKh",
-		3 * 1e5,
+		3*1e5,
 		false,
 		[]byte{})
 	resp, err := SendExecuteContractTx(tx)

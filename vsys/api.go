@@ -21,6 +21,7 @@ const (
 	ApiUnConfirmedTransaction  = "/transactions/unconfirmed"
 	ApiGetTransactionInfo      = "/transactions/info/%s"
 	ApiGetTransactionByAddress = "/transactions/address/%s/limit/%d"
+	ApiGetTransactionList  	   = "/transactions/list"
 
 	// peers
 	ApiGetPeersConnected = "/peers/connected"
@@ -123,4 +124,3 @@ func SendRegisterContractTx(tx *Transaction) (resp TransactionResponse, err erro
 func SendExecuteContractTx(tx *Transaction) (resp TransactionResponse, err error) {
 	return postSendTx(ApiContractBroadcastExecute, tx)
 }
-

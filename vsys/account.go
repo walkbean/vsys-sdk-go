@@ -1,7 +1,11 @@
 package vsys
 
 import (
+	"encoding/json"
+	"fmt"
 	"golang.org/x/crypto/curve25519"
+	"net/url"
+	"strconv"
 )
 
 type Account struct {
@@ -35,6 +39,108 @@ func (acc *Account) PublicKey() string {
 
 func (acc *Account) AccountSeed() string {
 	return acc.accSeed
+}
+
+type AccountInfo struct {
+	Address  	string
+	Regular 	int64
+	MintingAverage int64
+	Available 	int64
+	Effective 	int64
+	Height 		int64
+}
+
+// Get account V Coin balance
+func (acc *Account) GetInfo() (AccountInfo, error){
+	path := fmt.Sprintf(ApiGetAddressDetail, acc.Address())
+	resp, err := GetVsysApi().Get(path)
+	if err != nil {
+		return AccountInfo{}, err
+	}
+
+	var info AccountInfo
+	err = json.Unmarshal(resp, &info)
+	if err != nil {
+		return AccountInfo{}, err
+	}
+
+	return info, nil
+}
+
+type TokenBalance struct {
+	Error 		int `json:"error"`
+	Message  	string `json:"message"`
+	Address 	string `json:"address"`
+	TokenId 	string `json:"tokenId"`
+	Balance 	int64 `json:"balance"`
+	Unity 		int64 `json:"unity"`
+}
+
+func (acc *Account) GetTokenBalance(tokenId string) (TokenBalance, error) {
+	path := fmt.Sprintf(ApiContractTokenBalance, acc.Address(), tokenId)
+	resp, err := GetVsysApi().Get(path)
+	if err != nil {
+		return TokenBalance{}, nil
+	}
+
+	var tBalance TokenBalance
+	err = json.Unmarshal(resp, &tBalance)
+	if err != nil {
+		return TokenBalance{}, nil
+	}
+
+	return tBalance, nil
+}
+
+type TxHistoryList struct {
+	Error  				int `json:"error"`
+	Message  			string `json:"message"`
+	TotalCount  		int64 `json:"totalCount"`
+	Size 				int `json:"size"`
+	Transactions 		[]struct {
+		Type 		int64
+		Id 			string
+		Fee 		int64
+		FeeScale 	int64 `json:"feeScale"`
+		Timestamp 	int64 `json:"timestamp"`
+		Proofs 		[]struct {
+			ProofType 	string `json:"proofType"`
+			PublicKey 	string `json:"publicKey"`
+			Address 	string `json:"address"`
+			Signature 	string `json:"signature"`
+		}
+		Recipient 	string `json:"recipient"`
+		Amount 		int64 `json:"amount"`
+		Attachment 	string `json:"attachment"`
+		Status   	string `json:"status"`
+		FeeCharged  int64 `json:"feeCharged"`
+		Height 		int64 `json:"height"`
+	} `json:"transactions"`
+}
+
+// txType eg: TxTypePayment | TxTypeLeasing
+// txType <= 0 will return all kind of transactions
+func (acc *Account) GetTransferHistory(limit int64, offset int64, txType int64) (TxHistoryList, error){
+	params := url.Values{}
+	params.Set("address", acc.Address())
+	if txType > 0 {
+		params.Set("txType", strconv.FormatInt(txType, 10))
+	}
+	params.Set("limit", strconv.FormatInt(limit, 10))
+	params.Set("offset", strconv.FormatInt(offset, 10))
+	path := fmt.Sprintf("%s?%s", ApiGetTransactionList, params.Encode())
+	resp, err := GetVsysApi().Get(path)
+	if err != nil {
+		return TxHistoryList{}, err
+	}
+
+	var data TxHistoryList
+	err = json.Unmarshal(resp, &data)
+	if err != nil {
+		return TxHistoryList{}, err
+	}
+
+	return data, nil
 }
 
 // SignData sign data bytes and
