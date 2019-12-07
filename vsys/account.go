@@ -3,6 +3,7 @@ package vsys
 import (
 	"encoding/json"
 	"fmt"
+	"github.com/btcsuite/btcutil/base58"
 	"golang.org/x/crypto/curve25519"
 )
 
@@ -123,7 +124,7 @@ func (acc *Account) GetTransferHistory(limit int64, offset int64, txType int64) 
 // SignData sign data bytes and
 // the output is base58 encoded data
 func (acc *Account) SignData(data []byte) string {
-	return Base58Encode(Sign(acc.privateKey, data, genRandomBytes(64)))
+	return base58.Encode(Sign(acc.privateKey, data, genRandomBytes(64)))
 }
 
 // VerifySignature check if signature is correct
@@ -161,6 +162,7 @@ func (acc *Account) BuildFromSeed(seed string, nonce int) {
 // attachment can be empty
 func (acc *Account) BuildPayment(recipient string, amount int64, attachment []byte) *Transaction {
 	transaction := NewPaymentTransaction(recipient, amount, attachment)
+	transaction.AttachmentBase58 = base58.Encode(attachment)
 	transaction.SenderPublicKey = acc.PublicKey()
 	transaction.Signature = acc.SignData(transaction.BuildTxData())
 	return transaction
@@ -201,6 +203,7 @@ func (acc *Account) BuildRegisterContract(contract string, max int64, unity int6
 // BuildExecuteContract build ExecuteContract transaction
 func (acc *Account) BuildExecuteContract(contractId string, funcIdx int16, funcData []byte, attachment []byte) *Transaction {
 	transaction := NewExecuteTransaction(contractId, funcIdx, Base58Encode(funcData), attachment)
+	transaction.AttachmentBase58 = base58.Encode(attachment)
 	transaction.SenderPublicKey = acc.PublicKey()
 	transaction.Signature = acc.SignData(transaction.BuildTxData())
 	return transaction
@@ -219,6 +222,7 @@ func (acc *Account) BuildSendTokenTransaction(tokenId string, recipient string, 
 		funcIdx = FuncidxSendSplit
 	}
 	transaction := NewExecuteTransaction(a.ContractId, int16(funcIdx), Base58Encode(funcData), attachment)
+	transaction.AttachmentBase58 = base58.Encode(attachment)
 	transaction.SenderPublicKey = acc.PublicKey()
 	transaction.Signature = acc.SignData(transaction.BuildTxData())
 	return transaction

@@ -1,6 +1,7 @@
 package vsys
 
 import (
+	"github.com/btcsuite/btcutil/base58"
 	"github.com/stretchr/testify/assert"
 	"testing"
 	"time"
@@ -19,7 +20,8 @@ func TestSendPaymentTx(t *testing.T) {
 	InitApi("http://test.v.systems:9922", Testnet)
 	acc := InitAccount(Testnet)
 	acc.BuildFromSeed(testSeed, 0)
-	tx := acc.BuildPayment("AU8TRrRkwmrssbCLfD9r8k5nBiLrAuVJEWP", 1e7, []byte{})
+	tx := acc.BuildPayment("AU8TRrRkwmrssbCLfD9r8k5nBiLrAuVJEWP", 1e7, []byte("test"))
+	tx.AttachmentBase58 = base58.Encode(tx.Attachment)
 	resp, err := SendPaymentTx(tx)
 	assert.Equal(t, nil, err)
 	assert.Equal(t, resp.Error, 0)

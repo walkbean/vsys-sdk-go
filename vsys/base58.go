@@ -1,6 +1,8 @@
 package vsys
 
-import "math/big"
+import (
+	"math/big"
+)
 
 var bigRadix = big.NewInt(58)
 var bigZero = big.NewInt(0)
