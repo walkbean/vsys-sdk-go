@@ -11,7 +11,8 @@ type Transaction struct {
 	FeeScale        int16  `json:"feeScale"`
 	Amount          int64  `json:"amount,omitempty"`
 	SenderPublicKey string `json:"senderPublicKey"`
-	Attachment      []byte `json:"attachment,omitempty"`
+	Attachment      []byte `json:"attachment_byte,omitempty"`
+	AttachmentBase58 string `json:"attachment,omitempty"`
 	Recipient       string `json:"recipient,omitempty"`
 	Signature       string `json:"signature"`
 	// contract
