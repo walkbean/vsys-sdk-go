@@ -57,6 +57,7 @@ func TestContractId2TokenId(t *testing.T) {
 }
 
 func TestTokenId2ContractId(t *testing.T) {
+	fmt.Println(TokenId2ContractId(testToken))
 	assert.Equal(t, TokenId2ContractId(testToken), testContract)
 }
 

@@ -11,7 +11,7 @@ type Transaction struct {
 	FeeScale        int16  `json:"feeScale"`
 	Amount          int64  `json:"amount,omitempty"`
 	SenderPublicKey string `json:"senderPublicKey"`
-	Attachment      []byte `json:"attachment,omitempty"`
+	Attachment      string `json:"attachment,omitempty"`
 	Recipient       string `json:"recipient,omitempty"`
 	Signature       string `json:"signature"`
 	// contract
@@ -25,14 +25,14 @@ type Transaction struct {
 	txType        uint8
 }
 
-func NewPaymentTransaction(recipient string, amount int64, attachment []byte) *Transaction {
+func NewPaymentTransaction(recipient string, amount int64, attachment string) *Transaction {
 	return &Transaction{
 		Timestamp:  time.Now().Unix() * 1e9,
 		Fee:        DefaultTxFee,
 		FeeScale:   DefaultFeeScale,
 		Recipient:  recipient,
 		Amount:     amount,
-		Attachment: attachment,
+		Attachment: Base58Encode([]byte(attachment)),
 		txType:     TxTypePayment,
 	}
 }
@@ -70,13 +70,13 @@ func NewRegisterTransaction(contract string, data string, contractDescription st
 	}
 }
 
-func NewExecuteTransaction(contractId string, funcIdx int16, funcData string, attachment []byte) *Transaction {
+func NewExecuteTransaction(contractId string, funcIdx int16, funcData string, attachment string) *Transaction {
 	return &Transaction{
 		txType:        TxTypeContractExecute,
 		ContractId:    contractId,
 		FunctionIndex: funcIdx,
 		FunctionData:  funcData,
-		Attachment:    attachment,
+		Attachment:    Base58Encode([]byte(attachment)),
 		Fee:           ContractExecFee,
 		FeeScale:      DefaultFeeScale,
 		Timestamp:     time.Now().Unix() * 1e9,
@@ -121,8 +121,9 @@ func (tx *Transaction) buildPaymentData(data []byte) []byte {
 	data = append(data, uint64ToByte(tx.Fee)...)
 	data = append(data, uint16ToByte(tx.FeeScale)...)
 	data = append(data, Base58Decode(tx.Recipient)...)
-	data = append(data, uint16ToByte(int16(len(tx.Attachment)))...)
-	data = append(data, tx.Attachment...)
+	data = append(data, bytesToByteArrayWithSize(Base58Decode(tx.Attachment))...)
+	//data = append(data, uint16ToByte(int16(len(Base58Decode(tx.Attachment))))...)
+	//data = append(data, Base58Decode(tx.Attachment)...)
 	return data
 }
 
@@ -157,8 +158,9 @@ func (tx *Transaction) buildExecuteContractData(data []byte) []byte {
 	data = append(data, Base58Decode(tx.ContractId)...)
 	data = append(data, uint16ToByte(tx.FunctionIndex)...)
 	data = append(data, bytesToByteArrayWithSize(Base58Decode(tx.FunctionData))...)
-	data = append(data, uint16ToByte(int16(len(tx.Attachment)))...)
-	data = append(data, tx.Attachment...)
+	data = append(data, bytesToByteArrayWithSize(Base58Decode(tx.Attachment))...)
+	//data = append(data, uint16ToByte(int16(len(Base58Decode(tx.Attachment))))...)
+	//data = append(data, Base58Decode(tx.Attachment)...)
 	data = append(data, uint64ToByte(tx.Fee)...)
 	data = append(data, uint16ToByte(tx.FeeScale)...)
 	data = append(data, uint64ToByte(tx.Timestamp)...)

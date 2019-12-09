@@ -59,7 +59,7 @@ func getErrResp(resp *http.Response, body []byte) (err error) {
 	if resp.StatusCode != 200 {
 		errResp := CommonResp{}
 		if err := json.Unmarshal(body, &errResp); err != nil {
-			return errors.New("StatusCodeError")
+			return errors.New("StatusCodeError: " + resp.Status)
 		} else {
 			return errors.New(errResp.Message)
 		}

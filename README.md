@@ -1,6 +1,10 @@
 # vsys-sdk-go
 The golang library for V Systems Blockchain.
 
+## Warn
+
+The full functionality of SDK is still under development. The API may not be stable, please use it at your own risk.
+
 ## Installing
 
 Use `go get` to retrieve the SDK sto add it to your `GOPATH` workspace, or
@@ -9,7 +13,8 @@ project's Go module dependencies.
 	go get github.com/walkbean/vsys-sdk-go
 	
 ### Dependencies
-The SDK includes a vendor folder containing the runtime dependencies of the SDK. The metadata of the SDK's dependencies can be found in the GoVendor file vendor/vendor.json.
+
+The metadata of the SDK's dependencies can be found in the Go module file `go.mod`
 
 ## Usage
 
@@ -42,8 +47,8 @@ vsys.InitApi("http://test.v.systems:9922", vsys.Testnet)
 
 2. Make Transaction
 ```go
-// Create Payment Transaction (send 1 vsys, attachment empty)
-tx := acc.BuildPayment("<RECIPIENT_ADDRESS>", 1e8, []byte{})
+// Create Payment Transaction (send 1 vsys)
+tx := acc.BuildPayment("<RECIPIENT_ADDRESS>", 1e8, "<YOUR_ATTACHMENT>")
 vsys.SendPaymentTx(tx)
 	
 // Create Lease Transaction (lease 1 vsys)

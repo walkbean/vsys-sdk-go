@@ -159,7 +159,7 @@ func (acc *Account) BuildFromSeed(seed string, nonce int) {
 // recipient should be address
 // amount is in minimum unit
 // attachment can be empty
-func (acc *Account) BuildPayment(recipient string, amount int64, attachment []byte) *Transaction {
+func (acc *Account) BuildPayment(recipient string, amount int64, attachment string) *Transaction {
 	transaction := NewPaymentTransaction(recipient, amount, attachment)
 	transaction.SenderPublicKey = acc.PublicKey()
 	transaction.Signature = acc.SignData(transaction.BuildTxData())
@@ -189,7 +189,7 @@ func (acc *Account) BuildRegisterContract(contract string, max int64, unity int6
 	c := &Contract{
 		Max:              max * unity,
 		Unity:            unity,
-		TokenDescription: "vsys change the world",
+		TokenDescription: tokenDescription,
 	}
 	data := c.BuildRegisterData()
 	transaction := NewRegisterTransaction(contract, Base58Encode(data), contractDescription)
@@ -199,7 +199,7 @@ func (acc *Account) BuildRegisterContract(contract string, max int64, unity int6
 }
 
 // BuildExecuteContract build ExecuteContract transaction
-func (acc *Account) BuildExecuteContract(contractId string, funcIdx int16, funcData []byte, attachment []byte) *Transaction {
+func (acc *Account) BuildExecuteContract(contractId string, funcIdx int16, funcData []byte, attachment string) *Transaction {
 	transaction := NewExecuteTransaction(contractId, funcIdx, Base58Encode(funcData), attachment)
 	transaction.SenderPublicKey = acc.PublicKey()
 	transaction.Signature = acc.SignData(transaction.BuildTxData())
@@ -207,7 +207,7 @@ func (acc *Account) BuildExecuteContract(contractId string, funcIdx int16, funcD
 }
 
 // BuildExecuteContract build SendToken transaction
-func (acc *Account) BuildSendTokenTransaction(tokenId string, recipient string, amount int64, isSplitSupported bool, attachment []byte) *Transaction {
+func (acc *Account) BuildSendTokenTransaction(tokenId string, recipient string, amount int64, isSplitSupported bool, attachment string) *Transaction {
 	a := &Contract{
 		ContractId: TokenId2ContractId(tokenId),
 		Amount:     amount,
