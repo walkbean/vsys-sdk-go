@@ -1,9 +1,8 @@
 package vsys
 
 import (
-	rand2 "crypto/rand"
+	"crypto/rand"
 	"encoding/binary"
-	"math/rand"
 	"strings"
 )
 
@@ -77,7 +76,7 @@ func genRandomBytes(n int) []byte {
 	var retBytes []byte
 	for i := n / 8; i > 0; i-- {
 		var rb = make([]byte, 8)
-		rand2.Read(rb)
+		rand.Read(rb)
 		retBytes = append(retBytes, rb...)
 	}
 	return retBytes
